@@ -1,0 +1,749 @@
+openapi: 3.1.0
+info:
+  title: API RDO SUAPE
+  version: 0.2.0
+  description: API inicial alinhada ao schema atual, com schemas de resposta documentados.
+servers:
+  - url: http://localhost:3000
+
+paths:
+  /health:
+    get:
+      summary: Healthcheck da API
+      responses:
+        '200':
+          description: API em funcionamento
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+
+  /api/usuarios:
+    get:
+      summary: Listar usuarios
+      parameters:
+        - $ref: '#/components/parameters/UserPerfilHeader'
+      responses:
+        '200':
+          description: Lista de usuarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Usuario'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+    post:
+      summary: Criar usuario
+      parameters:
+        - $ref: '#/components/parameters/UserPerfilHeader'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioInput'
+      responses:
+        '201':
+          description: Usuario criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /api/usuarios/{id}:
+    get:
+      summary: Buscar usuario por id
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
+        - $ref: '#/components/parameters/UserPerfilHeader'
+      responses:
+        '200':
+          description: Usuario encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      summary: Atualizar usuario
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
+        - $ref: '#/components/parameters/UserPerfilHeader'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioInput'
+      responses:
+        '200':
+          description: Usuario atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/obras:
+    get:
+      summary: Listar obras
+      parameters:
+        - $ref: '#/components/parameters/UserPerfilHeader'
+      responses:
+        '200':
+          description: Lista de obras
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Obra'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+    post:
+      summary: Criar obra
+      parameters:
+        - $ref: '#/components/parameters/UserPerfilHeader'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObraInput'
+      responses:
+        '201':
+          description: Obra criada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /api/obras/{id}:
+    get:
+      summary: Buscar obra por id
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
+        - $ref: '#/components/parameters/UserPerfilHeader'
+      responses:
+        '200':
+          description: Obra encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Obra'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      summary: Atualizar obra
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
+        - $ref: '#/components/parameters/UserPerfilHeader'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObraInput'
+      responses:
+        '200':
+          description: Obra atualizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/rdos:
+    get:
+      summary: Listar RDOs
+      parameters:
+        - $ref: '#/components/parameters/UserPerfilHeader'
+      responses:
+        '200':
+          description: Lista de RDOs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rdo'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+    post:
+      summary: Criar RDO
+      parameters:
+        - $ref: '#/components/parameters/UserPerfilHeader'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RdoInput'
+      responses:
+        '201':
+          description: RDO criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /api/rdos/{id}:
+    get:
+      summary: Buscar RDO por id
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
+        - $ref: '#/components/parameters/UserPerfilHeader'
+      responses:
+        '200':
+          description: RDO encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rdo'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      summary: Atualizar RDO
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
+        - $ref: '#/components/parameters/UserPerfilHeader'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RdoInput'
+      responses:
+        '200':
+          description: RDO atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/rdos/{id}/enviar:
+    post:
+      summary: Enviar RDO de RASCUNHO para ENVIADO
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
+        - $ref: '#/components/parameters/UserPerfilHeader'
+      responses:
+        '200':
+          description: RDO enviado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+
+  /api/rdos/{id}/midias:
+    get:
+      summary: Listar midias do RDO
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
+        - $ref: '#/components/parameters/UserPerfilHeader'
+      responses:
+        '200':
+          description: Lista de midias
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RdoMidia'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    post:
+      summary: Criar midia do RDO
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
+        - $ref: '#/components/parameters/UserPerfilHeader'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RdoMidiaInput'
+      responses:
+        '201':
+          description: Midia criada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/rdos/{id}/aprovacoes:
+    get:
+      summary: Listar aprovacoes do RDO
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
+        - $ref: '#/components/parameters/UserPerfilHeader'
+      responses:
+        '200':
+          description: Lista de aprovacoes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RdoAprovacao'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    post:
+      summary: Registrar aprovacao do RDO
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
+        - $ref: '#/components/parameters/UserPerfilHeader'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RdoAprovacaoInput'
+      responses:
+        '201':
+          description: Aprovacao registrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AprovacaoResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+
+components:
+  parameters:
+    IdPath:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+
+    UserPerfilHeader:
+      name: x-user-perfil
+      in: header
+      required: true
+      schema:
+        $ref: '#/components/schemas/PerfilUsuario'
+
+  responses:
+    Unauthorized:
+      description: Perfil de usuario ausente ou invalido no header x-user-perfil
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    Forbidden:
+      description: Perfil sem permissao para a operacao
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    NotFound:
+      description: Recurso nao encontrado
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    Conflict:
+      description: Conflito de regra de negocio
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    ValidationError:
+      description: Erro de validacao de payload
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ValidationErrorResponse'
+
+  schemas:
+    PerfilUsuario:
+      type: string
+      enum: [FORNECEDOR, FISCAL_EXTERNO, FISCAL_SUAPE, ADMIN]
+
+    StatusRdo:
+      type: string
+      enum: [RASCUNHO, ENVIADO, APROVADO_EXTERNO, APROVADO_SUAPE, REPROVADO]
+
+    StatusAprovacao:
+      type: string
+      enum: [APROVADO, REPROVADO, DEVOLVIDO]
+
+    TipoMidia:
+      type: string
+      enum: [FOTO, VIDEO, ANEXO]
+
+    HealthResponse:
+      type: object
+      required: [status]
+      properties:
+        status:
+          type: string
+          example: ok
+
+    MessageResponse:
+      type: object
+      required: [message]
+      properties:
+        message:
+          type: string
+
+    ErrorResponse:
+      type: object
+      required: [message]
+      properties:
+        message:
+          type: string
+
+    ValidationErrorResponse:
+      type: object
+      required: [message, errors]
+      properties:
+        message:
+          type: string
+          example: Dados invalidos
+        errors:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+
+    UsuarioInput:
+      type: object
+      required: [nome, email, perfil]
+      properties:
+        nome:
+          type: string
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          maxLength: 150
+        perfil:
+          $ref: '#/components/schemas/PerfilUsuario'
+
+    Usuario:
+      type: object
+      required: [id, nome, email, perfil]
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        email:
+          type: string
+        perfil:
+          $ref: '#/components/schemas/PerfilUsuario'
+
+    ObraInput:
+      type: object
+      required: [nome, contrato, endereco]
+      properties:
+        nome:
+          type: string
+          maxLength: 150
+        contrato:
+          type: string
+          maxLength: 100
+        endereco:
+          type: string
+
+    Obra:
+      type: object
+      required: [id, nome, contrato, endereco]
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        contrato:
+          type: string
+        endereco:
+          type: string
+
+    RdoInput:
+      type: object
+      required: [obra_id, fornecedor_id, data_rdo, atividades, equipe, equipamentos]
+      properties:
+        obra_id:
+          type: integer
+        fornecedor_id:
+          type: integer
+        data_rdo:
+          type: string
+          format: date
+        atividades:
+          type: string
+        equipe:
+          oneOf:
+            - type: object
+              additionalProperties: true
+            - type: array
+              items:
+                type: object
+                additionalProperties: true
+        equipamentos:
+          oneOf:
+            - type: object
+              additionalProperties: true
+            - type: array
+              items:
+                type: object
+                additionalProperties: true
+        comentarios:
+          type: string
+        clima:
+          type: string
+          maxLength: 50
+        ocorrencias:
+          type: string
+        conclusao_etapa:
+          type: string
+        status:
+          $ref: '#/components/schemas/StatusRdo'
+
+    Rdo:
+      type: object
+      required:
+        [
+          id,
+          obra_id,
+          fornecedor_id,
+          data_rdo,
+          atividades,
+          equipe,
+          equipamentos,
+          comentarios,
+          clima,
+          ocorrencias,
+          conclusao_etapa,
+          status
+        ]
+      properties:
+        id:
+          type: integer
+        obra_id:
+          type: integer
+        fornecedor_id:
+          type: integer
+        data_rdo:
+          type: string
+          format: date
+        atividades:
+          type: string
+        equipe:
+          oneOf:
+            - type: object
+              additionalProperties: true
+            - type: array
+              items:
+                type: object
+                additionalProperties: true
+            - type: string
+        equipamentos:
+          oneOf:
+            - type: object
+              additionalProperties: true
+            - type: array
+              items:
+                type: object
+                additionalProperties: true
+            - type: string
+        comentarios:
+          type: string
+        clima:
+          type: string
+        ocorrencias:
+          type: string
+        conclusao_etapa:
+          type: string
+        status:
+          $ref: '#/components/schemas/StatusRdo'
+
+    RdoMidiaInput:
+      type: object
+      required: [tipo, nome_arquivo, extensao, tamanho, caminho]
+      properties:
+        tipo:
+          $ref: '#/components/schemas/TipoMidia'
+        nome_arquivo:
+          type: string
+          maxLength: 255
+        extensao:
+          type: string
+          maxLength: 20
+        tamanho:
+          type: integer
+        caminho:
+          type: string
+        descricao:
+          type: string
+
+    RdoMidia:
+      type: object
+      required: [id, rdo_id, tipo, nome_arquivo, extensao, tamanho, caminho, descricao, criado_em]
+      properties:
+        id:
+          type: integer
+        rdo_id:
+          type: integer
+        tipo:
+          $ref: '#/components/schemas/TipoMidia'
+        nome_arquivo:
+          type: string
+        extensao:
+          type: string
+        tamanho:
+          type: integer
+        caminho:
+          type: string
+        descricao:
+          type: string
+        criado_em:
+          type: string
+          format: date-time
+
+    RdoAprovacaoInput:
+      type: object
+      required: [usuario_id, status]
+      properties:
+        usuario_id:
+          type: integer
+        status:
+          $ref: '#/components/schemas/StatusAprovacao'
+        observacao:
+          type: string
+
+    RdoAprovacao:
+      type: object
+      required: [id, rdo_id, usuario_id, status, observacao, criado_em]
+      properties:
+        id:
+          type: integer
+        rdo_id:
+          type: integer
+        usuario_id:
+          type: integer
+        status:
+          $ref: '#/components/schemas/StatusAprovacao'
+        observacao:
+          type: string
+        criado_em:
+          type: string
+          format: date-time
+
+    AprovacaoResponse:
+      type: object
+      required: [message, next_status]
+      properties:
+        message:
+          type: string
+        next_status:
+          $ref: '#/components/schemas/StatusRdo'
