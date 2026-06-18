@@ -31,6 +31,29 @@ API REST inicial para o sistema de Diario de Obras (RDO), implementada com Node.
 - Build: `npm run build`
 - Producao: `npm start`
 
+## Docker Compose (backend + Postgres)
+No diretorio raiz do repositorio:
+- Subir servicos: `docker compose up --build -d`
+- Logs do backend: `docker compose logs -f backend`
+- Derrubar ambiente: `docker compose down`
+
+O backend sobe na porta `3000` e conecta no servico `postgres` do compose.
+
+## Deploy no Railway
+O repositorio ja inclui `railway.toml` apontando para `backend/Dockerfile`.
+
+Passos recomendados:
+1. Criar um projeto no Railway e conectar este repositorio.
+2. Criar um servico PostgreSQL no Railway.
+3. No servico do backend, configurar variaveis:
+   - `PORT=3000`
+   - `DATABASE_URL=${{Postgres.DATABASE_URL}}` (referencia da variavel do plugin Postgres)
+   - `DB_SSL=true`
+   - `DB_CONNECTION_LIMIT=10`
+4. Definir Healthcheck Path como `/health` (ja configurado no `railway.toml`).
+
+Com isso, o backend usa `DATABASE_URL` em producao (Railway) e segue suportando variaveis separadas para uso local.
+
 ## Headers de autorizacao (MVP)
 No estado inicial, as rotas usam RBAC simples por header:
 - `x-user-perfil: FORNECEDOR | FISCAL_EXTERNO | FISCAL_SUAPE | ADMIN`

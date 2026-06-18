@@ -1,14 +1,23 @@
 import { Pool, QueryResultRow } from "pg";
 import { env } from "./env";
 
-export const pool = new Pool({
-  host: env.dbHost,
-  port: env.dbPort,
-  user: env.dbUser,
-  password: env.dbPassword,
-  database: env.dbName,
-  max: env.dbConnectionLimit
-});
+const poolConfig = env.databaseUrl
+  ? {
+      connectionString: env.databaseUrl,
+      ssl: env.dbSsl ? { rejectUnauthorized: false } : undefined,
+      max: env.dbConnectionLimit
+    }
+  : {
+      host: env.dbHost,
+      port: env.dbPort,
+      user: env.dbUser,
+      password: env.dbPassword,
+      database: env.dbName,
+      ssl: env.dbSsl ? { rejectUnauthorized: false } : undefined,
+      max: env.dbConnectionLimit
+    };
+
+export const pool = new Pool(poolConfig);
 
 type SqlParam = string | number | boolean | Date | Buffer | null;
 
